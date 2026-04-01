@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h2 class="mb-4">AI Job Matcher</h2>
+        <p class="text-muted">Enter your skills (separated by commas) to see how well you match our current job openings.</p>
+
+        <div class="card shadow-sm mb-5">
+            <div class="card-body">
+                <form action="/match" method="POST">
+                    <div class="mb-3">
+                        <label for="skills" class="form-label font-weight-bold">My Skills</label>
+                        <input type="text" class="form-control" name="skills" id="skills" 
+                               placeholder="e.g. Python, SQL, Flask, HTML" value="{{ user_skills }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Calculate Match Percentage</button>
+                </form>
+            </div>
+        </div>
+
+        {% if results %}
+        <h4 class="mb-3">Match Results</h4>
+        {% for match in results %}
+        <div class="card mb-3 border-left-{{ 'success' if match.percent > 70 else 'warning' }}">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">{{ match.title }}</h5>
+                        <small class="text-muted">{{ match.company }}</small>
+                    </div>
+                    <div class="text-end">
+                        <span class="h4 mb-0 text-{{ 'success' if match.percent > 70 else 'primary' }}">{{ match.percent }}%</span>
+                        <div class="progress mt-1" style="width: 100px; height: 8px;">
+                            <div class="progress-bar bg-{{ 'success' if match.percent > 70 else 'primary' }}" 
+                                 role="progressbar" style="width: {{ match.percent }}%"></div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <p class="mb-1"><strong>Skills Found:</strong> 
+                    {% if match.found %}
+                        {% for skill in match.found %}
+                            <span class="badge bg-light text-dark border">{{ skill }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <span class="text-muted small">No matches found for this job.</span>
+                    {% endif %}
+                </p>
+                <small class="text-muted">Job requires {{ match.total_reqs }} key skills.</small>
+            </div>
+        </div>
+        {% endfor %}
+        {% elif user_skills %}
+        <div class="alert alert-info">No jobs found that match those skills. Try adding more!</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
