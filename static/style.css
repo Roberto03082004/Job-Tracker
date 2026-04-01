@@ -1,0 +1,70 @@
+/* Custom Styles for Job Application Tracker */
+
+:root {
+    --primary-color: #0d6efd;
+    --success-color: #198754;
+    --warning-color: #ffc107;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Dashboard Card Enhancements */
+.card {
+    border-radius: 12px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/* Professional Border Accents for Status/Match */
+.border-left-success {
+    border-left: 5px solid var(--success-color) !important;
+}
+
+.border-left-warning {
+    border-left: 5px solid var(--warning-color) !important;
+}
+
+/* Table Styling */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+/* Form Styling */
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+}
+
+/* Navbar Customization */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Matcher Progress Bar */
+.progress {
+    border-radius: 10px;
+    background-color: #e9ecef;
+}
+
+/* Custom Badges */
+.badge {
+    padding: 0.5em 0.8em;
+    font-weight: 500;
+}
