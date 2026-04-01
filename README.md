@@ -30,4 +30,3 @@ A full-stack web application designed to manage the end-to-end job search proces
 
 ## Documentation & Credits
 * **AI Usage:** Detailed disclosure of Generative AI assistance is provided in `AI_USAGE.md`.
-* **Project Specs:** Built to satisfy the "Excellent" criteria for the COP4751 final project rubric.
