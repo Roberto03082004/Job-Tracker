@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Professional Contacts</h2>
+
+<div class="card mb-4 shadow-sm border-info">
+    <div class="card-body">
+        <h5 class="card-title">Add New Contact</h5>
+        <form action="/contacts/add" method="POST" class="row g-3">
+            <div class="col-md-4">
+                <select name="company_id" class="form-select" required>
+                    {% for co in companies %}<option value="{{ co.company_id }}">{{ co.company_name }}</option>{% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4"><input type="text" name="first_name" class="form-control" placeholder="First Name" required></div>
+            <div class="col-md-4"><input type="text" name="last_name" class="form-control" placeholder="Last Name" required></div>
+            <div class="col-md-5"><input type="email" name="email" class="form-control" placeholder="Email Address"></div>
+            <div class="col-md-4"><input type="text" name="title" class="form-control" placeholder="Job Title (e.g. Recruiter)"></div>
+            <div class="col-md-3"><button type="submit" class="btn btn-info w-100">Save Contact</button></div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Title</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in contacts %}
+        <tr>
+            <td>{{ c.first_name }} {{ c.last_name }}</td>
+            <td>{{ c.company_name }}</td>
+            <td>{{ c.job_title }}</td>
+            <td><a href="mailto:{{ c.email }}">{{ c.email }}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
