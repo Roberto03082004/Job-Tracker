@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Job Openings</h2>
+    <span class="badge bg-secondary">{{ jobs|length }} Total Jobs</span>
+</div>
+
+<div class="card mb-4 shadow-sm border-success">
+    <div class="card-body">
+        <h5 class="card-title text-success">Post a New Job Posting</h5>
+        <form action="/jobs/add" method="POST" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Company</label>
+                <select name="company_id" class="form-select" required>
+                    <option value="">Choose a company...</option>
+                    {% for co in companies %}
+                    <option value="{{ co.company_id }}">{{ co.company_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Job Title</label>
+                <input type="text" name="title" class="form-control" placeholder="e.g. Software Engineer" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Job Type</label>
+                <select name="job_type" class="form-select">
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Internship">Internship</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Min Salary</label>
+                <input type="number" name="salary_min" class="form-control" placeholder="70000">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Max Salary</label>
+                <input type="number" name="salary_max" class="form-control" placeholder="90000">
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button type="submit" class="btn btn-success w-100">Add Job to Database</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Type</th>
+            <th>Salary Range</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for job in jobs %}
+        <tr>
+            <td><strong>{{ job.job_title }}</strong></td>
+            <td>{{ job.company_name }}</td>
+            <td><span class="badge bg-info text-dark">{{ job.job_type }}</span></td>
+            <td>
+                {% if job.salary_min and job.salary_max %}
+                    ${{ "{:,}".format(job.salary_min|int) }} - ${{ "{:,}".format(job.salary_max|int) }}
+                {% else %}
+                    Negotiable
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
