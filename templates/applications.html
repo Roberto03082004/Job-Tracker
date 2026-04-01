@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Applications</h2>
+
+<div class="card mb-4 shadow-sm border-primary">
+    <div class="card-body">
+        <h5 class="card-title">Track New Application</h5>
+        <form action="/applications/add" method="POST" class="row g-3">
+            <div class="col-md-4">
+                <select name="job_id" class="form-select" required>
+                    {% for job in jobs %}<option value="{{ job.job_id }}">{{ job.job_title }} at {{ job.company_name }}</option>{% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3"><input type="date" name="date" class="form-control" required></div>
+            <div class="col-md-3"><input type="text" name="resume" class="form-control" placeholder="Resume Version (e.g. v1)"></div>
+            <div class="col-md-2"><button type="submit" class="btn btn-primary w-100">Add</button></div>
+        </form>
+    </div>
+</div>
+
+<table class="table align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Date</th>
+            <th>Job & Company</th>
+            <th>Status</th>
+            <th>Update Status</th>
+			<th class="text-end pe-4">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for app in apps %}
+        <tr>
+            <td>{{ app.application_date }}</td>
+            <td><strong>{{ app.job_title }}</strong><br><small class="text-muted">{{ app.company_name }}</small></td>
+            <td><span class="badge bg-{{ 'success' if app.status == 'Offer' else 'warning text-dark' }}">{{ app.status }}</span></td>
+            <td>
+                <form action="/applications/update/{{ app.application_id }}" method="POST" class="d-inline">
+                    <select name="status" class="form-select form-select-sm d-inline w-auto" onchange="this.form.submit()">
+						<option value="Applied" {% if app.status == 'Applied' %}selected{% endif %}>Applied</option>
+						<option value="Interview" {% if app.status == 'Interview' %}selected{% endif %}>Interview</option>
+						<option value="Interview Completed" {% if app.status == 'Interview Completed' %}selected{% endif %}>Interview Completed</option>
+						<option value="Offer" {% if app.status == 'Offer' %}selected{% endif %}>Offer</option>
+						<option value="Rejected" {% if app.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+					</select>
+                </form>
+            </td>
+			<td class="text-end">
+				<a href="/applications/delete/{{ app.application_id }}" 
+				class="btn btn-outline-danger btn-sm me-2" 
+				onclick="return confirm('Are you sure you want to delete this application?')">
+				Delete
+				</a>
+			</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
